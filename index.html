@@ -66,7 +66,7 @@
     </div>
   </nav>
 
-  <!-- 選擇規格與數量彈窗 -->
+  <!-- 選擇規格與數量彈窗（新增數量備註） -->
   <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-3">
@@ -82,10 +82,14 @@
         </div>
       </div>
 
+      <!-- 購買數量 + 備註說明區 -->
       <div class="flex items-center justify-between py-2 border-y border-gray-100 mb-5 text-xs">
-        <span class="font-bold text-gray-700">購買數量</span>
-        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden w-32 bg-white">
-          <button type="button" onclick="changeQty(-1)" class="px-3 py-1.5 bg-gray-50 font-bold border-r hover:bg-gray-100 active:bg-gray-200 select-none">-</button>
+        <div>
+          <span class="font-bold text-gray-700">購買數量</span>
+          <p class="text-[10px] text-orange-600 font-medium mt-0.5">※ 此為單入售價，未滿3000免運需補60元運費</p>
+        </div>
+        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden w-28 bg-white flex-shrink-0">
+          <button type="button" onclick="changeQty(-1)" class="px-2.5 py-1.5 bg-gray-50 font-bold border-r hover:bg-gray-100 active:bg-gray-200 select-none">-</button>
           <input id="modal-qty" 
                  type="number" 
                  inputmode="numeric" 
@@ -94,7 +98,7 @@
                  oninput="handleQtyInput(this)" 
                  onblur="handleQtyBlur(this)" 
                  class="w-full text-center bg-transparent font-bold text-sm focus:outline-none py-1">
-          <button type="button" onclick="changeQty(1)" class="px-3 py-1.5 bg-gray-50 font-bold border-l hover:bg-gray-100 active:bg-gray-200 select-none">+</button>
+          <button type="button" onclick="changeQty(1)" class="px-2.5 py-1.5 bg-gray-50 font-bold border-l hover:bg-gray-100 active:bg-gray-200 select-none">+</button>
         </div>
       </div>
 
@@ -152,9 +156,20 @@
             <input id="cust-store" required placeholder="例：逢甲店 或 163822" class="w-full px-3 py-2 rounded-lg border border-gray-200">
           </div>
 
-          <div class="pt-2 border-t flex justify-between items-center text-sm font-bold">
-            <span class="text-gray-600">應付總額（取貨付款）：</span>
-            <span class="text-orange-600 text-lg">NT$<span id="cart-total-price">0</span></span>
+          <!-- 金額與運費明細（未滿3000補60元運費） -->
+          <div class="pt-2 border-t space-y-1 text-xs">
+            <div class="flex justify-between text-gray-500">
+              <span>商品小計：</span>
+              <span>NT$<span id="cart-subtotal-price">0</span></span>
+            </div>
+            <div class="flex justify-between text-gray-500">
+              <span>運費（滿3000免運）：</span>
+              <span id="cart-shipping-fee" class="font-bold text-gray-700">NT$60</span>
+            </div>
+            <div class="flex justify-between items-center text-sm font-bold pt-1 border-t border-dashed border-gray-200">
+              <span class="text-gray-700">應付總額（取貨付款）：</span>
+              <span class="text-orange-600 text-lg">NT$<span id="cart-total-price">0</span></span>
+            </div>
           </div>
 
           <button id="submit-btn" type="submit" class="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-sm shadow">
@@ -244,14 +259,14 @@
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
     const fallbackProducts = [
-      { id: "item-001", tag: "藍莓爆珠", tagColor: "black", title: "日版TEREA煙彈", price: 175, stock: 15, soldCount: 595, imageUrl: "./images/blueberry.png" },
-      { id: "item-002", tag: "熱帶水果", tagColor: "black", title: "日版TEREA煙彈", price: 175, stock: 8, soldCount: 592, imageUrl: "./images/3.png" },
-      { id: "item-003", tag: "檸檬", tagColor: "black", title: "日版TEREA煙彈", price: 175, stock: 6, soldCount: 584, imageUrl: "./images/4.png" },
-      { id: "item-004", tag: "淡薄荷味", tagColor: "red", title: "亞洲版TEREA煙彈", price: 175, stock: 12, soldCount: 523, imageUrl: "./images/2.png" },
-      { id: "item-005", tag: "西瓜味爆珠", tagColor: "black", title: "亞洲版TEREA煙彈", price: 175, stock: 10, soldCount: 528, imageUrl: "./images/5.png" },
-      { id: "item-006", tag: "青檸黑薄荷", tagColor: "black", title: "亞洲版TEREA煙彈", price: 175, stock: 5, soldCount: 511, imageUrl: "./images/8.png" },
-      { id: "item-007", tag: "青檸檬薄荷", tagColor: "red", title: "亞洲版TEREA煙彈", price: 175, stock: 0, soldCount: 507, imageUrl: "./images/6.png" },
-      { id: "item-008", tag: "黑色薄荷", tagColor: "black", title: "亞洲版TEREA煙彈", price: 175, stock: 20, soldCount: 509, imageUrl: "./images/7.png" }
+      { id: "item-001", tag: "閃銀", tagColor: "black", title: "韓版TEREA煙彈 (原味淡)", price: 180, stock: 10, soldCount: 420, imageUrl: "./images/1.png" },
+      { id: "item-002", tag: "琥珀", tagColor: "black", title: "韓版TEREA煙彈 (原味濃)", price: 180, stock: 10, soldCount: 390, imageUrl: "./images/2.png" },
+      { id: "item-003", tag: "葡萄涼", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 510, imageUrl: "./images/3.png" },
+      { id: "item-004", tag: "青檸抹茶", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 460, imageUrl: "./images/4.png" },
+      { id: "item-005", tag: "濃薄荷", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 530, imageUrl: "./images/5.png" },
+      { id: "item-006", tag: "淡薄荷", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 480, imageUrl: "./images/6.png" },
+      { id: "item-007", tag: "夏日微風", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 350, imageUrl: "./images/7.png" },
+      { id: "item-008", tag: "花香涼", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 320, imageUrl: "./images/8.png" }
     ];
 
     function renderProductGrid(products) {
@@ -296,7 +311,6 @@
       }
     }
 
-    // 選購彈窗操作
     function openProductModal(item) {
       selectedProduct = item;
       currentQty = 1;
@@ -392,16 +406,32 @@
       document.getElementById('cart-modal').classList.remove('flex');
     }
 
+    // 購物車與運費計算 (未滿 3000 需補 60 元運費)
     function renderCartUI() {
       const container = document.getElementById('cart-items-container');
       const checkoutSection = document.getElementById('cart-checkout-section');
       const countBadge = document.getElementById('cart-total-count-badge');
+      const subtotalPriceEl = document.getElementById('cart-subtotal-price');
+      const shippingFeeEl = document.getElementById('cart-shipping-fee');
       const totalPriceEl = document.getElementById('cart-total-price');
 
       container.innerHTML = '';
       const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
-      const totalAmt = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const shippingFee = (subtotal >= 3000 || subtotal === 0) ? 0 : 60;
+      const totalAmt = subtotal + shippingFee;
+
       countBadge.innerText = `共 ${totalQty} 件`;
+      if (subtotalPriceEl) subtotalPriceEl.innerText = subtotal;
+      if (shippingFeeEl) {
+        if (shippingFee === 0) {
+          shippingFeeEl.innerText = "免運 (NT$0)";
+          shippingFeeEl.className = "font-bold text-emerald-600";
+        } else {
+          shippingFeeEl.innerText = "NT$60";
+          shippingFeeEl.className = "font-bold text-orange-600";
+        }
+      }
       totalPriceEl.innerText = totalAmt;
 
       if (cart.length === 0) {
@@ -471,7 +501,9 @@
       btn.innerText = "訂單送出中...";
 
       const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-      const totalAmt = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const shippingFee = (subtotal >= 3000 || subtotal === 0) ? 0 : 60;
+      const totalAmt = subtotal + shippingFee;
       const combinedTitle = cart.map(item => `【${item.tag}】${item.title} x${item.qty}`).join('、');
 
       const orderData = {
@@ -493,7 +525,7 @@
           body: JSON.stringify(orderData)
         });
 
-        alert(`下單成功！共 ${totalQty} 件商品，將儘速安排出貨至 ${orderData.storeType} ${orderData.storeName}。`);
+        alert(`下單成功！共 ${totalQty} 件商品，總金額 NT$${totalAmt}（${shippingFee === 0 ? '滿額免運' : '含運費 NT$60'}），將儘速安排出貨至 ${orderData.storeType} ${orderData.storeName}。`);
         cart = [];
         saveCart();
         closeCartModal();
@@ -545,7 +577,6 @@
       }
     }
 
-    // 複製單號函式
     function copyTrackingCode(code) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(code).then(() => {
@@ -566,7 +597,6 @@
       alert(`配送編號已複製：${code}\n可直接點擊下方「查貨態」前往超商官網查詢！`);
     }
 
-    // 歷史訂單查詢（支援一鍵複製單號與自動判斷）
     async function fetchUserOrders() {
       if (!currentUser) return;
       const container = document.getElementById('orders-container');
@@ -595,7 +625,6 @@
             const storeBadge = is711 ? '7-11' : '全家';
             const badgeColor = is711 ? 'text-red-600' : 'text-emerald-600';
 
-            // 判斷是否為已出貨的單號（非「待出貨」或「處理中」）
             const isTrackingNo = o.status && o.status !== '待出貨' && o.status !== '處理中';
 
             const statusBadgeHtml = isTrackingNo ? `
