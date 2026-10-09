@@ -1,82 +1,162 @@
 [
   {
     "id": "item-001",
-    "tag": "藍莓爆珠",
+    "tag": "閃銀",
     "tagColor": "black",
-    "title": "日版TEREA煙彈",
-    "price": 180,
-    "stock": 15,
-    "soldCount": 595,
-    "imageUrl": "./images/blueberry.png"
+    "title": "韓版TEREA煙彈 (原味淡)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 420,
+    "imageUrl": "./images/1.png"
   },
   {
     "id": "item-002",
-    "tag": "熱帶水果",
+    "tag": "琥珀",
     "tagColor": "black",
-    "title": "日版TEREA煙彈",
-    "price": 180,
-    "stock": 8,
-    "soldCount": 592,
-    "imageUrl": "./images/3.png"
-  },
-  {
-    "id": "item-003",
-    "tag": "檸檬",
-    "tagColor": "black",
-    "title": "日版TEREA煙彈",
-    "price": 180,
-    "stock": 6,
-    "soldCount": 584,
-    "imageUrl": "./images/4.png"
-  },
-  {
-    "id": "item-004",
-    "tag": "淡薄荷味",
-    "tagColor": "red",
-    "title": "亞洲版TEREA煙彈",
-    "price": 180,
-    "stock": 12,
-    "soldCount": 523,
+    "title": "韓版TEREA煙彈 (原味濃)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 390,
     "imageUrl": "./images/2.png"
   },
   {
-    "id": "item-005",
-    "tag": "西瓜味爆珠",
+    "id": "item-003",
+    "tag": "葡萄涼",
     "tagColor": "black",
-    "title": "亞洲版TEREA煙彈",
-    "price": 180,
+    "title": "韓版TEREA煙彈 (涼系)",
+    "price": 175,
     "stock": 10,
-    "soldCount": 528,
+    "soldCount": 510,
+    "imageUrl": "./images/3.png"
+  },
+  {
+    "id": "item-004",
+    "tag": "青檸抹茶",
+    "tagColor": "black",
+    "title": "韓版TEREA煙彈 (涼系)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 460,
+    "imageUrl": "./images/4.png"
+  },
+  {
+    "id": "item-005",
+    "tag": "濃薄荷",
+    "tagColor": "black",
+    "title": "韓版TEREA煙彈 (涼系)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 530,
     "imageUrl": "./images/5.png"
   },
   {
     "id": "item-006",
-    "tag": "青檸黑薄荷",
+    "tag": "淡薄荷",
     "tagColor": "black",
-    "title": "亞洲版TEREA煙彈",
-    "price": 180,
-    "stock": 5,
-    "soldCount": 511,
-    "imageUrl": "./images/8.png"
+    "title": "韓版TEREA煙彈 (涼系)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 480,
+    "imageUrl": "./images/6.png"
   },
   {
     "id": "item-007",
-    "tag": "青檸檬薄荷",
-    "tagColor": "red",
-    "title": "亞洲版TEREA煙彈",
-    "price": 180,
-    "stock": 0,
-    "soldCount": 507,
-    "imageUrl": "./images/4.png"
+    "tag": "夏日微風",
+    "tagColor": "black",
+    "title": "韓版TEREA煙彈 (涼系)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 350,
+    "imageUrl": "./images/7.png"
   },
   {
     "id": "item-008",
-    "tag": "黑色薄荷",
+    "tag": "花香涼",
     "tagColor": "black",
-    "title": "亞洲版TEREA煙彈",
+    "title": "韓版TEREA煙彈 (涼系)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 320,
+    "imageUrl": "./images/8.png"
+  },
+  {
+    "id": "item-009",
+    "tag": "黑冰薄荷",
+    "tagColor": "black",
+    "title": "韓版TEREA煙彈 (黑冰涼)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 580,
+    "imageUrl": "./images/9.png"
+  },
+  {
+    "id": "item-010",
+    "tag": "黑冰葡萄",
+    "tagColor": "black",
+    "title": "韓版TEREA煙彈 (黑冰涼)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 540,
+    "imageUrl": "./images/10.png"
+  },
+  {
+    "id": "item-011",
+    "tag": "黑冰莓果",
+    "tagColor": "black",
+    "title": "韓版TEREA煙彈 (黑冰涼)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 590,
+    "imageUrl": "./images/11.png"
+  },
+  {
+    "id": "item-012",
+    "tag": "花香爆珠",
+    "tagColor": "red",
+    "title": "韓版TEREA煙彈 (新推出爆珠)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 410,
+    "imageUrl": "./images/12.png"
+  },
+  {
+    "id": "item-013",
+    "tag": "綠洲爆珠",
+    "tagColor": "red",
+    "title": "韓版TEREA煙彈 (爆珠涼系)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 620,
+    "imageUrl": "./images/13.png"
+  },
+  {
+    "id": "item-014",
+    "tag": "日光爆珠",
+    "tagColor": "red",
+    "title": "韓版TEREA煙彈 (爆珠涼系)",
     "price": 180,
-    "stock": 20,
-    "soldCount": 509,
-    "imageUrl": "./images/7.png"
+    "stock": 10,
+    "soldCount": 570,
+    "imageUrl": "./images/14.png"
+  },
+  {
+    "id": "item-015",
+    "tag": "櫻桃爆珠",
+    "tagColor": "red",
+    "title": "韓版TEREA煙彈 (新包裝爆珠)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 490,
+    "imageUrl": "./images/15.png"
+  },
+  {
+    "id": "item-016",
+    "tag": "青蘋果爆珠",
+    "tagColor": "red",
+    "title": "韓版TEREA煙彈 (新包裝爆珠)",
+    "price": 175,
+    "stock": 10,
+    "soldCount": 450,
+    "imageUrl": "./images/16.png"
   }
 ]
