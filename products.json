@@ -1,20 +1,46 @@
 [
   {
     "id": "item-001",
-    "title": "手作純棉重磅連帽衫",
-    "price": 1280,
-    "stock": 5,
-    "imageUrl": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&auto=format&fit=crop&q=80",
-    "description": "2026 秋冬新款，柔軟親膚，版型寬鬆挺拔。",
+    "tag": "藍莓爆珠",
+    "tagColor": "red",
+    "title": "日版TEREA煙彈",
+    "price": 2300,
+    "stock": 15,
+    "soldCount": 595,
+    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Blue",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample1"
   },
   {
     "id": "item-002",
-    "title": "極簡防潑水日常托特包",
-    "price": 690,
-    "stock": 0,
-    "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80",
-    "description": "大容量收納，通勤逛街兩用。",
+    "tag": "熱帶水果",
+    "tagColor": "black",
+    "title": "日版TEREA煙彈",
+    "price": 2300,
+    "stock": 8,
+    "soldCount": 592,
+    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Orange",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample2"
+  },
+  {
+    "id": "item-003",
+    "tag": "檸檬",
+    "tagColor": "black",
+    "title": "日版TEREA煙彈",
+    "price": 2300,
+    "stock": 0,
+    "soldCount": 584,
+    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Lemon",
+    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample3"
+  },
+  {
+    "id": "item-004",
+    "tag": "淡薄荷味",
+    "tagColor": "red",
+    "title": "亞洲版TEREA煙彈",
+    "price": 2300,
+    "stock": 12,
+    "soldCount": 523,
+    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Mint",
+    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample4"
   }
 ]
