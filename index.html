@@ -66,7 +66,7 @@
     </div>
   </nav>
 
-  <!-- 選擇規格與數量彈窗（可手動輸入數量） -->
+  <!-- 選擇規格與數量彈窗 -->
   <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-3">
@@ -314,7 +314,6 @@
       document.getElementById('product-modal').classList.remove('flex');
     }
 
-    // 按鈕加減數量
     function changeQty(delta) {
       const next = currentQty + delta;
       if (next >= 1) {
@@ -323,7 +322,6 @@
       }
     }
 
-    // 手動打字輸入數量即時處理
     function handleQtyInput(el) {
       const val = parseInt(el.value, 10);
       if (!isNaN(val) && val >= 1) {
@@ -331,7 +329,6 @@
       }
     }
 
-    // 當輸入框失去焦點時，若為空或小於 1 則自動校正為 1
     function handleQtyBlur(el) {
       if (!el.value || parseInt(el.value, 10) < 1) {
         el.value = 1;
@@ -339,7 +336,6 @@
       }
     }
 
-    // 加入購物車
     function addToCart() {
       const existing = cart.find(i => i.id === selectedProduct.id);
       if (existing) {
@@ -359,7 +355,6 @@
       alert(`已將「【${selectedProduct.tag}】${selectedProduct.title}」共 ${currentQty} 件加入購物車！`);
     }
 
-    // 立即結帳
     function buyNow() {
       addToCart();
       openCartModal();
@@ -411,7 +406,7 @@
 
       if (cart.length === 0) {
         container.innerHTML = `
-      <div class="py-12 text-center text-gray-400 text-xs">
+          <div class="py-12 text-center text-gray-400 text-xs">
             <i data-lucide="shopping-bag" class="w-10 h-10 mx-auto mb-2 text-gray-300"></i>
             購物車空空如也，快去挑選喜愛的商品吧！
           </div>
@@ -550,7 +545,28 @@
       }
     }
 
-    // 歷史訂單查詢
+    // 複製單號函式
+    function copyTrackingCode(code) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(() => {
+          alert(`配送編號已複製：${code}\n可直接點擊下方「查貨態」前往超商官網查詢！`);
+        }).catch(() => fallbackCopy(code));
+      } else {
+        fallbackCopy(code);
+      }
+    }
+
+    function fallbackCopy(code) {
+      const temp = document.createElement('input');
+      temp.value = code;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      alert(`配送編號已複製：${code}\n可直接點擊下方「查貨態」前往超商官網查詢！`);
+    }
+
+    // 歷史訂單查詢（支援一鍵複製單號與自動判斷）
     async function fetchUserOrders() {
       if (!currentUser) return;
       const container = document.getElementById('orders-container');
@@ -579,12 +595,27 @@
             const storeBadge = is711 ? '7-11' : '全家';
             const badgeColor = is711 ? 'text-red-600' : 'text-emerald-600';
 
+            // 判斷是否為已出貨的單號（非「待出貨」或「處理中」）
+            const isTrackingNo = o.status && o.status !== '待出貨' && o.status !== '處理中';
+
+            const statusBadgeHtml = isTrackingNo ? `
+              <button type="button" onclick="copyTrackingCode('${o.status}')" title="點擊複製單號" 
+                      class="flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-orange-100 text-orange-700 hover:bg-orange-200 active:scale-95 transition border border-orange-300">
+                <span>${o.status}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
+              </button>
+            ` : `
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">${o.status}</span>
+            `;
+
             const card = document.createElement('div');
             card.className = "bg-gray-50 border border-gray-100 rounded-xl p-3 text-xs space-y-1.5";
             card.innerHTML = `
               <div class="flex justify-between items-center">
                 <span class="font-bold text-gray-800">${o.product}</span>
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === '已寄出' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'}">${o.status}</span>
+                ${statusBadgeHtml}
               </div>
               <div class="flex justify-between items-center text-gray-500 text-[11px]">
                 <span>門市：${displayStore}</span>
