@@ -4,10 +4,10 @@
     "tag": "藍莓爆珠",
     "tagColor": "red",
     "title": "日版TEREA煙彈",
-    "price": 2300,
+    "price": 175,
     "stock": 15,
     "soldCount": 595,
-    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Blue",
+    "imageUrl": "./images/blue.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample1"
   },
   {
@@ -15,10 +15,10 @@
     "tag": "熱帶水果",
     "tagColor": "black",
     "title": "日版TEREA煙彈",
-    "price": 2300,
+    "price": 175,
     "stock": 8,
     "soldCount": 592,
-    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Orange",
+    "imageUrl": "./images/orange.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample2"
   },
   {
@@ -26,10 +26,10 @@
     "tag": "檸檬",
     "tagColor": "black",
     "title": "日版TEREA煙彈",
-    "price": 2300,
+    "price": 175,
     "stock": 0,
     "soldCount": 584,
-    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Lemon",
+    "imageUrl": "./images/lemon.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample3"
   },
   {
@@ -37,10 +37,10 @@
     "tag": "淡薄荷味",
     "tagColor": "red",
     "title": "亞洲版TEREA煙彈",
-    "price": 2300,
+    "price": 175,
     "stock": 12,
     "soldCount": 523,
-    "imageUrl": "https://via.placeholder.com/400x300?text=TEREA+Mint",
+    "imageUrl": "./images/mint.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample4"
   }
 ]
