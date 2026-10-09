@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>精選賣場 - 7-11 賣貨便專區</title>
+  <!-- 引入 Tailwind CSS (CDN 免安裝) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen">
+
+  <!-- 頂部導航 -->
+  <header class="bg-white border-b sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold tracking-tight text-gray-900">官方商品櫥窗</h1>
+      <span class="text-xs bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full font-medium">支援 7-11 取貨付款</span>
+    </div>
+  </header>
+
+  <!-- 商品網格清單 -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- 商品卡片由 JS 動態生成 -->
+    </div>
+  </main>
+
+  <script>
+    // 讀取 products.json 並渲染畫面
+    async function loadProducts() {
+      try {
+        const response = await fetch('./products.json');
+        const products = await response.json();
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = '';
+
+        products.forEach(item => {
+          const isOutOfStock = item.stock <= 0;
+
+          // 庫存標籤顯示
+          let stockBadge = `<span class="bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-0.5 rounded">現貨庫存：${item.stock}</span>`;
+          if (isOutOfStock) {
+            stockBadge = `<span class="bg-red-100 text-red-600 text-xs font-semibold px-2.5 py-0.5 rounded">已售完</span>`;
+          } else if (item.stock <= 3) {
+            stockBadge = `<span class="bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-0.5 rounded">僅剩 ${item.stock} 件</span>`;
+          }
+
+          const card = document.createElement('div');
+          card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition hover:shadow-md";
+          card.innerHTML = `
+            <!-- 商品圖片 -->
+            <div class="relative aspect-square w-full bg-gray-100 overflow-hidden">
+              <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover object-center ${isOutOfStock ? 'grayscale opacity-70' : ''}">
+              ${isOutOfStock ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white font-bold text-lg">SOLD OUT</div>' : ''}
+            </div>
+
+            <!-- 商品詳細資訊 -->
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <h2 class="font-bold text-gray-900 text-lg leading-snug">${item.title}</h2>
+                  ${stockBadge}
+                </div>
+                <p class="text-sm text-gray-500 mb-4 line-clamp-2">${item.description}</p>
+                <div class="text-xl font-extrabold text-orange-600 mb-4">NT$ ${item.price.toLocaleString()}</div>
+              </div>
+
+              <!-- 購買控制區 -->
+              <div class="pt-4 border-t border-gray-100">
+                ${!isOutOfStock ? `
+                  <div class="flex items-center justify-between mb-3 text-sm text-gray-600">
+                    <span>購買數量：</span>
+                    <div class="flex items-center border rounded-lg overflow-hidden bg-gray-50">
+                      <button onclick="adjustQty('${item.id}', -1)" class="px-3 py-1 bg-white hover:bg-gray-100 text-gray-700 font-bold border-r">-</button>
+                      <input id="qty-${item.id}" type="number" value="1" min="1" max="${item.stock}" readonly class="w-12 text-center bg-transparent text-sm font-semibold">
+                      <button onclick="adjustQty('${item.id}', 1,${item.stock})" class="px-3 py-1 bg-white hover:bg-gray-100 text-gray-700 font-bold border-l">+</button>
+                    </div>
+                  </div>
+                  <a href="${item.myshipUrl}" target="_blank" rel="noopener noreferrer" 
+                     class="block w-full text-center bg-orange-600 hover:bg-orange-700 active:bg-orange-800 text-white font-medium py-2.5 px-4 rounded-lg shadow-sm transition">
+                    前往賣貨便下單 ↗
+                  </a>
+                ` : `
+                  <button disabled class="w-full bg-gray-200 text-gray-400 font-medium py-2.5 px-4 rounded-lg cursor-not-allowed">
+                    補貨中（暫無法下單）
+                  </button>
+                `}
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error('載入商品資料失敗:', err);
+      }
+    }
+
+    // 數量增減輔助函式
+    function adjustQty(id, delta, maxStock) {
+      const input = document.getElementById(`qty-${id}`);
+      if (!input) return;
+      let val = parseInt(input.value) + delta;
+      if (val < 1) val = 1;
+      if (maxStock && val > maxStock) val = maxStock;
+      input.value = val;
+    }
+
+    // 頁面載入完成後執行
+    window.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+</body>
+</html>
