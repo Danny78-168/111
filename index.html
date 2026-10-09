@@ -114,12 +114,8 @@
         <button onclick="closeCartModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <!-- 購物車內容區 -->
-      <div id="cart-items-container" class="flex-1 overflow-y-auto space-y-2 py-1 pr-1">
-        <!-- JS 動態生成購物車項目 -->
-      </div>
+      <div id="cart-items-container" class="flex-1 overflow-y-auto space-y-2 py-1 pr-1"></div>
 
-      <!-- 結帳表單（購物車有商品時才顯示） -->
       <div id="cart-checkout-section" class="border-t border-gray-100 pt-3 mt-3">
         <form id="order-form" onsubmit="handleOrderSubmit(event)" class="space-y-3 text-xs">
           <div>
@@ -162,9 +158,9 @@
     </div>
   </div>
 
-  <!-- 會員中心 & 歷史訂單彈窗 -->
+  <!-- 會員中心 & 歷史訂單 & 超商貨態查詢彈窗 -->
   <div id="member-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3">
-    <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl relative max-h-[85vh] flex flex-col">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl relative max-h-[88vh] flex flex-col">
       <button onclick="closeMemberModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
@@ -175,7 +171,7 @@
           <i data-lucide="user" class="w-8 h-8"></i>
         </div>
         <h3 class="text-lg font-bold text-gray-900 mb-1">會員登入</h3>
-        <p class="text-xs text-gray-500 mb-6">登入 Google 帳號即可即時查看歷史訂單進度</p>
+        <p class="text-xs text-gray-500 mb-6">登入 Google 帳號即可即時查看歷史訂單與貨態進度</p>
 
         <div id="g_id_onload"
              data-client_id="834986949101-oqokr3vfmv4dfn07cqd7foamfqsj99vd.apps.googleusercontent.com"
@@ -188,7 +184,7 @@
       <!-- 已登入介面 -->
       <div id="profile-view" class="flex flex-col h-full overflow-hidden hidden">
         <div class="flex items-center gap-3 pb-3 border-b border-gray-100">
-          <img id="user-picture" class="w-12 h-12 rounded-full border border-orange-200 object-cover" src="" alt="">
+          <img id="user-picture" class="w-11 h-11 rounded-full border border-orange-200 object-cover" src="" alt="">
           <div class="flex-1 overflow-hidden">
             <h4 id="user-name" class="font-bold text-sm text-gray-900 truncate">會員名稱</h4>
             <p id="user-email" class="text-[11px] text-gray-400 truncate">user@gmail.com</p>
@@ -196,7 +192,28 @@
           <button onclick="handleLogout()" class="text-xs text-gray-400 hover:text-red-500">登出</button>
         </div>
 
-        <div class="flex-1 overflow-y-auto py-3">
+        <!-- 7-11 與 全家 官方貨態查詢快捷專區 -->
+        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-3 my-2.5">
+          <div class="text-[11px] font-bold text-gray-700 mb-2 flex items-center gap-1.5">
+            <i data-lucide="truck" class="w-3.5 h-3.5 text-orange-600"></i>
+            官方物流貨態即時查詢
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <a href="https://eservice.7-11.com.tw/e-tracking/search.aspx" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-center gap-1 py-2 px-2 bg-white border border-gray-200 rounded-xl font-bold text-gray-800 hover:border-orange-500 hover:text-orange-600 transition shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-red-500"></span>
+              7-11 貨態查詢 ↗
+            </a>
+            <a href="https://fmec.famiport.com.tw/FP_Entrance/QueryBox" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-center gap-1 py-2 px-2 bg-white border border-gray-200 rounded-xl font-bold text-gray-800 hover:border-emerald-500 hover:text-emerald-600 transition shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              全家 貨態查詢 ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- 歷史訂單區域 -->
+        <div class="flex-1 overflow-y-auto py-1">
           <div class="flex justify-between items-center mb-2">
             <span class="text-xs font-bold text-gray-700">歷史下單紀錄</span>
             <button onclick="fetchUserOrders()" class="text-[11px] text-orange-600 flex items-center gap-1">
@@ -272,7 +289,6 @@
       }
     }
 
-    // 選購彈窗操作
     function openProductModal(item) {
       selectedProduct = item;
       currentQty = 1;
@@ -297,7 +313,6 @@
       }
     }
 
-    // 加入購物車
     function addToCart() {
       const existing = cart.find(i => i.id === selectedProduct.id);
       if (existing) {
@@ -317,7 +332,6 @@
       alert(`已將「【${selectedProduct.tag}】${selectedProduct.title}」共 ${currentQty} 件加入購物車！`);
     }
 
-    // 立即結帳（直接加入購物車並打開購物車結帳）
     function buyNow() {
       addToCart();
       openCartModal();
@@ -341,7 +355,6 @@
       }
     }
 
-    // 打開購物車彈窗
     function openCartModal() {
       renderCartUI();
       if (currentUser && currentUser.name) {
@@ -426,7 +439,6 @@
       renderCartUI();
     }
 
-    // 提交整台購物車訂單至 Google 試算表
     async function handleOrderSubmit(e) {
       e.preventDefault();
       if (cart.length === 0) return alert('購物車內沒有商品！');
@@ -472,7 +484,6 @@
       }
     }
 
-    // Google 登入解析
     function decodeJwtResponse(token) {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -511,7 +522,7 @@
       }
     }
 
-    // 歷史訂單查詢
+    // 歷史訂單查詢（智慧綁定 7-11 與 全家 貨態連結）
     async function fetchUserOrders() {
       if (!currentUser) return;
       const container = document.getElementById('orders-container');
@@ -524,15 +535,26 @@
         if (result.status === 'success' && result.orders.length > 0) {
           container.innerHTML = '';
           result.orders.forEach(o => {
+            const is711 = o.store && o.store.includes('7-11');
+            const trackingUrl = is711
+              ? 'https://eservice.7-11.com.tw/e-tracking/search.aspx'
+              : 'https://fmec.famiport.com.tw/FP_Entrance/QueryBox';
+            const storeBadge = is711 ? '7-11' : '全家';
+
             const card = document.createElement('div');
-            card.className = "bg-gray-50 border border-gray-100 rounded-xl p-3 text-xs space-y-1";
+            card.className = "bg-gray-50 border border-gray-100 rounded-xl p-3 text-xs space-y-1.5";
             card.innerHTML = `
               <div class="flex justify-between items-center">
                 <span class="font-bold text-gray-800">${o.product}</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === '已寄出' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'}">${o.status}</span>
               </div>
-              <div class="text-gray-500">門市：${o.store}</div>
-              <div class="flex justify-between items-center text-gray-400 text-[10px] pt-1 border-t border-gray-200">
+              <div class="flex justify-between items-center text-gray-500 text-[11px]">
+                <span>門市：${o.store}</span>
+                <a href="${trackingUrl}" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold hover:underline flex items-center gap-0.5">
+                  查${storeBadge}貨態 ↗
+                </a>
+              </div>
+              <div class="flex justify-between items-center text-gray-400 text-[10px] pt-1.5 border-t border-gray-200">
                 <span>${o.time}</span>
                 <span class="font-bold text-orange-600 text-xs">${o.amount}</span>
               </div>
@@ -550,6 +572,7 @@
     function openMemberModal() {
       document.getElementById('member-modal').classList.remove('hidden');
       document.getElementById('member-modal').classList.add('flex');
+      lucide.createIcons();
       if (currentUser) fetchUserOrders();
     }
 
