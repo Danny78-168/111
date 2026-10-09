@@ -18,7 +18,7 @@
     "price": 175,
     "stock": 8,
     "soldCount": 592,
-    "imageUrl": "./images/tropical.png",
+    "imageUrl": "./images/3.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample2"
   },
   {
@@ -29,7 +29,7 @@
     "price": 175,
     "stock": 6,
     "soldCount": 584,
-    "imageUrl": "./images/lemon.png",
+    "imageUrl": "./images/4.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample3"
   },
   {
@@ -40,7 +40,7 @@
     "price": 175,
     "stock": 12,
     "soldCount": 523,
-    "imageUrl": "./images/mint-light.png",
+    "imageUrl": "./images/2.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample4"
   },
   {
@@ -51,7 +51,7 @@
     "price": 175,
     "stock": 10,
     "soldCount": 528,
-    "imageUrl": "./images/watermelon.png",
+    "imageUrl": "./images/5.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample5"
   },
   {
@@ -62,7 +62,7 @@
     "price": 175,
     "stock": 5,
     "soldCount": 511,
-    "imageUrl": "./images/lime-dark.png",
+    "imageUrl": "./images/8.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample6"
   },
   {
@@ -73,7 +73,7 @@
     "price": 175,
     "stock": 0,
     "soldCount": 507,
-    "imageUrl": "./images/lime-mint.png",
+    "imageUrl": "./images/4.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample7"
   },
   {
@@ -84,7 +84,7 @@
     "price": 175,
     "stock": 20,
     "soldCount": 509,
-    "imageUrl": "./images/black-menthol.png",
+    "imageUrl": "./images/7.png",
     "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample8"
   }
 ]
