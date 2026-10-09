@@ -66,7 +66,7 @@
     </div>
   </nav>
 
-  <!-- 選擇規格與數量彈窗（新增數量備註） -->
+  <!-- 選擇規格與數量彈窗 -->
   <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-3">
@@ -78,11 +78,11 @@
         <img id="modal-img" class="w-16 h-16 object-contain rounded-lg bg-white p-1" src="" alt="">
         <div class="flex-1">
           <div id="modal-title" class="font-bold text-sm text-gray-800"></div>
-          <div class="text-orange-600 font-extrabold text-base mt-0.5">NT$<span id="modal-price">175</span></div>
+          <div class="text-orange-600 font-extrabold text-base mt-0.5">NT$<span id="modal-price">180</span></div>
         </div>
       </div>
 
-      <!-- 購買數量 + 備註說明區 -->
+      <!-- 購買數量 + 備註提醒 -->
       <div class="flex items-center justify-between py-2 border-y border-gray-100 mb-5 text-xs">
         <div>
           <span class="font-bold text-gray-700">購買數量</span>
@@ -156,7 +156,7 @@
             <input id="cust-store" required placeholder="例：逢甲店 或 163822" class="w-full px-3 py-2 rounded-lg border border-gray-200">
           </div>
 
-          <!-- 金額與運費明細（未滿3000補60元運費） -->
+          <!-- 金額與運費明細（滿 3000 免運 / 未滿 60 元） -->
           <div class="pt-2 border-t space-y-1 text-xs">
             <div class="flex justify-between text-gray-500">
               <span>商品小計：</span>
@@ -251,6 +251,7 @@
   </div>
 
   <script>
+    // 最新 Google Apps Script API 網址
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwL8dP-8w8LN2HNL5pSUaUDUPBH2CHCny4N6wkxsz321w-LHt5qkWgrjubmjNA_lyZX/exec";
 
     let selectedProduct = null;
@@ -258,6 +259,7 @@
     let currentUser = null;
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
+    // 16 款商品內建備用清單
     const fallbackProducts = [
       { id: "item-001", tag: "閃銀", tagColor: "black", title: "韓版TEREA煙彈 (原味淡)", price: 180, stock: 10, soldCount: 420, imageUrl: "./images/1.png" },
       { id: "item-002", tag: "琥珀", tagColor: "black", title: "韓版TEREA煙彈 (原味濃)", price: 180, stock: 10, soldCount: 390, imageUrl: "./images/2.png" },
@@ -266,7 +268,15 @@
       { id: "item-005", tag: "濃薄荷", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 530, imageUrl: "./images/5.png" },
       { id: "item-006", tag: "淡薄荷", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 480, imageUrl: "./images/6.png" },
       { id: "item-007", tag: "夏日微風", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 350, imageUrl: "./images/7.png" },
-      { id: "item-008", tag: "花香涼", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 320, imageUrl: "./images/8.png" }
+      { id: "item-008", tag: "花香涼", tagColor: "black", title: "韓版TEREA煙彈 (涼系)", price: 180, stock: 10, soldCount: 320, imageUrl: "./images/8.png" },
+      { id: "item-009", tag: "黑冰薄荷", tagColor: "black", title: "韓版TEREA煙彈 (黑冰涼)", price: 180, stock: 10, soldCount: 580, imageUrl: "./images/9.png" },
+      { id: "item-010", tag: "黑冰葡萄", tagColor: "black", title: "韓版TEREA煙彈 (黑冰涼)", price: 180, stock: 10, soldCount: 540, imageUrl: "./images/10.png" },
+      { id: "item-011", tag: "黑冰莓果", tagColor: "black", title: "韓版TEREA煙彈 (黑冰涼)", price: 180, stock: 10, soldCount: 590, imageUrl: "./images/11.png" },
+      { id: "item-012", tag: "花香爆珠", tagColor: "red", title: "韓版TEREA煙彈 (新推出爆珠)", price: 180, stock: 10, soldCount: 410, imageUrl: "./images/12.png" },
+      { id: "item-013", tag: "綠洲爆珠", tagColor: "red", title: "韓版TEREA煙彈 (爆珠涼系)", price: 180, stock: 10, soldCount: 620, imageUrl: "./images/13.png" },
+      { id: "item-014", tag: "日光爆珠", tagColor: "red", title: "韓版TEREA煙彈 (爆珠涼系)", price: 180, stock: 10, soldCount: 570, imageUrl: "./images/14.png" },
+      { id: "item-015", tag: "櫻桃爆珠", tagColor: "red", title: "韓版TEREA煙彈 (新包裝爆珠)", price: 180, stock: 10, soldCount: 490, imageUrl: "./images/15.png" },
+      { id: "item-016", tag: "青蘋果爆珠", tagColor: "red", title: "韓版TEREA煙彈 (新包裝爆珠)", price: 180, stock: 10, soldCount: 450, imageUrl: "./images/16.png" }
     ];
 
     function renderProductGrid(products) {
@@ -406,7 +416,6 @@
       document.getElementById('cart-modal').classList.remove('flex');
     }
 
-    // 購物車與運費計算 (未滿 3000 需補 60 元運費)
     function renderCartUI() {
       const container = document.getElementById('cart-items-container');
       const checkoutSection = document.getElementById('cart-checkout-section');
