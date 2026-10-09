@@ -132,7 +132,7 @@
             <label class="block font-bold text-gray-700 mb-1">配送超商 *</label>
             <div class="grid grid-cols-2 gap-2">
               <label class="flex items-center gap-2 p-2 border rounded-lg cursor-pointer hover:bg-gray-50">
-                <input type="radio" name="storeType" value="7-11" checked> <span>7-ELEVEN</span>
+                <input type="radio" name="storeType" value="7-ELEVEN" checked> <span>7-ELEVEN</span>
               </label>
               <label class="flex items-center gap-2 p-2 border rounded-lg cursor-pointer hover:bg-gray-50">
                 <input type="radio" name="storeType" value="全家"> <span>全家 Family</span>
@@ -142,7 +142,7 @@
 
           <div>
             <label class="block font-bold text-gray-700 mb-1">門市名稱或店號 *</label>
-            <input id="cust-store" required placeholder="例：逢甲店 或 123456" class="w-full px-3 py-2 rounded-lg border border-gray-200">
+            <input id="cust-store" required placeholder="例：逢甲店 或 163822" class="w-full px-3 py-2 rounded-lg border border-gray-200">
           </div>
 
           <div class="pt-2 border-t flex justify-between items-center text-sm font-bold">
@@ -158,7 +158,7 @@
     </div>
   </div>
 
-  <!-- 會員中心 & 歷史訂單 & 超商貨態查詢彈窗 -->
+  <!-- 會員中心 & 歷史訂單 & 官方物流查詢彈窗 -->
   <div id="member-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3">
     <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl relative max-h-[88vh] flex flex-col">
       <button onclick="closeMemberModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
@@ -192,7 +192,7 @@
           <button onclick="handleLogout()" class="text-xs text-gray-400 hover:text-red-500">登出</button>
         </div>
 
-        <!-- 7-11 與 全家 官方貨態查詢快捷專區 -->
+        <!-- 7-11 與 全家 官方貨態查詢快捷按鈕 -->
         <div class="bg-gray-50 border border-gray-100 rounded-2xl p-3 my-2.5">
           <div class="text-[11px] font-bold text-gray-700 mb-2 flex items-center gap-1.5">
             <i data-lucide="truck" class="w-3.5 h-3.5 text-orange-600"></i>
@@ -455,7 +455,7 @@
         name: document.getElementById('cust-name').value.trim(),
         phone: document.getElementById('cust-phone').value.trim(),
         email: currentUser ? currentUser.email : "訪客",
-        storeType: document.querySelector('input[name="storeType"]:checked').value,
+        storeType: document.querySelector('input[name="storeType"]:checked').value, // 送出 7-ELEVEN 或 全家
         storeName: document.getElementById('cust-store').value.trim(),
         productTitle: combinedTitle,
         quantity: totalQty,
@@ -522,7 +522,7 @@
       }
     }
 
-    // 歷史訂單查詢（智慧綁定 7-11 與 全家 貨態連結）
+    // 歷史訂單查詢（精準對應 7-11 與 全家 貨態連結）
     async function fetchUserOrders() {
       if (!currentUser) return;
       const container = document.getElementById('orders-container');
@@ -535,11 +535,24 @@
         if (result.status === 'success' && result.orders.length > 0) {
           container.innerHTML = '';
           result.orders.forEach(o => {
-            const is711 = o.store && o.store.includes('7-11');
+            let displayStore = o.store || "";
+
+            // 智能防呆：如果試算表把 7-11 誤存成英文日期，自動還原為「7-ELEVEN」
+            const is711 = displayStore.includes('7-11') ||
+                          displayStore.includes('7-ELEVEN') ||
+                          displayStore.includes('Jul 11');
+
+            if (is711) {
+              // 把長串英文日期清理掉，只保留門市號碼或名稱
+              displayStore = "7-ELEVEN " + displayStore.replace(/Sat Jul 11[^\d]*/i, '').replace(/7-11/g, '').replace(/7-ELEVEN/g, '').trim();
+            }
+
+            // 嚴格對應超商網址
             const trackingUrl = is711
               ? 'https://eservice.7-11.com.tw/e-tracking/search.aspx'
               : 'https://fmec.famiport.com.tw/FP_Entrance/QueryBox';
             const storeBadge = is711 ? '7-11' : '全家';
+            const badgeColor = is711 ? 'text-red-600' : 'text-emerald-600';
 
             const card = document.createElement('div');
             card.className = "bg-gray-50 border border-gray-100 rounded-xl p-3 text-xs space-y-1.5";
@@ -549,8 +562,8 @@
                 <span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === '已寄出' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'}">${o.status}</span>
               </div>
               <div class="flex justify-between items-center text-gray-500 text-[11px]">
-                <span>門市：${o.store}</span>
-                <a href="${trackingUrl}" target="_blank" rel="noopener noreferrer" class="text-orange-600 font-bold hover:underline flex items-center gap-0.5">
+                <span>門市：${displayStore}</span>
+                <a href="${trackingUrl}" target="_blank" rel="noopener noreferrer" class="${badgeColor} font-bold hover:underline flex items-center gap-0.5">
                   查${storeBadge}貨態 ↗
                 </a>
               </div>
