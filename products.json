@@ -4,87 +4,79 @@
     "tag": "藍莓爆珠",
     "tagColor": "black",
     "title": "日版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 15,
     "soldCount": 595,
-    "imageUrl": "./images/blueberry.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample1"
+    "imageUrl": "./images/blueberry.png"
   },
   {
     "id": "item-002",
     "tag": "熱帶水果",
     "tagColor": "black",
     "title": "日版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 8,
     "soldCount": 592,
-    "imageUrl": "./images/3.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample2"
+    "imageUrl": "./images/3.png"
   },
   {
     "id": "item-003",
     "tag": "檸檬",
     "tagColor": "black",
     "title": "日版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 6,
     "soldCount": 584,
-    "imageUrl": "./images/4.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample3"
+    "imageUrl": "./images/4.png"
   },
   {
     "id": "item-004",
     "tag": "淡薄荷味",
     "tagColor": "red",
     "title": "亞洲版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 12,
     "soldCount": 523,
-    "imageUrl": "./images/2.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample4"
+    "imageUrl": "./images/2.png"
   },
   {
     "id": "item-005",
     "tag": "西瓜味爆珠",
     "tagColor": "black",
     "title": "亞洲版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 10,
     "soldCount": 528,
-    "imageUrl": "./images/5.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample5"
+    "imageUrl": "./images/5.png"
   },
   {
     "id": "item-006",
     "tag": "青檸黑薄荷",
     "tagColor": "black",
     "title": "亞洲版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 5,
     "soldCount": 511,
-    "imageUrl": "./images/8.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample6"
+    "imageUrl": "./images/8.png"
   },
   {
     "id": "item-007",
     "tag": "青檸檬薄荷",
     "tagColor": "red",
     "title": "亞洲版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 0,
     "soldCount": 507,
-    "imageUrl": "./images/4.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample7"
+    "imageUrl": "./images/4.png"
   },
   {
     "id": "item-008",
     "tag": "黑色薄荷",
     "tagColor": "black",
     "title": "亞洲版TEREA煙彈",
-    "price": 175,
+    "price": 180,
     "stock": 20,
     "soldCount": 509,
-    "imageUrl": "./images/7.png",
-    "myshipUrl": "https://myship.7-11.com.tw/cart/confirm/sample8"
+    "imageUrl": "./images/7.png"
   }
 ]
