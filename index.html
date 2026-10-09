@@ -66,7 +66,7 @@
     </div>
   </nav>
 
-  <!-- 選擇規格與數量彈窗 -->
+  <!-- 選擇規格與數量彈窗（可手動輸入數量） -->
   <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center pb-3 border-b border-gray-100 mb-3">
@@ -84,10 +84,17 @@
 
       <div class="flex items-center justify-between py-2 border-y border-gray-100 mb-5 text-xs">
         <span class="font-bold text-gray-700">購買數量</span>
-        <div class="flex items-center border rounded-lg overflow-hidden w-28 bg-gray-50">
-          <button type="button" onclick="changeQty(-1)" class="px-3 py-1 bg-white font-bold border-r hover:bg-gray-100">-</button>
-          <input id="modal-qty" type="number" value="1" min="1" readonly class="w-full text-center bg-transparent font-bold">
-          <button type="button" onclick="changeQty(1)" class="px-3 py-1 bg-white font-bold border-l hover:bg-gray-100">+</button>
+        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden w-32 bg-white">
+          <button type="button" onclick="changeQty(-1)" class="px-3 py-1.5 bg-gray-50 font-bold border-r hover:bg-gray-100 active:bg-gray-200 select-none">-</button>
+          <input id="modal-qty" 
+                 type="number" 
+                 inputmode="numeric" 
+                 value="1" 
+                 min="1" 
+                 oninput="handleQtyInput(this)" 
+                 onblur="handleQtyBlur(this)" 
+                 class="w-full text-center bg-transparent font-bold text-sm focus:outline-none py-1">
+          <button type="button" onclick="changeQty(1)" class="px-3 py-1.5 bg-gray-50 font-bold border-l hover:bg-gray-100 active:bg-gray-200 select-none">+</button>
         </div>
       </div>
 
@@ -289,6 +296,7 @@
       }
     }
 
+    // 選購彈窗操作
     function openProductModal(item) {
       selectedProduct = item;
       currentQty = 1;
@@ -306,13 +314,32 @@
       document.getElementById('product-modal').classList.remove('flex');
     }
 
+    // 按鈕加減數量
     function changeQty(delta) {
-      if (currentQty + delta >= 1) {
-        currentQty += delta;
+      const next = currentQty + delta;
+      if (next >= 1) {
+        currentQty = next;
         document.getElementById('modal-qty').value = currentQty;
       }
     }
 
+    // 手動打字輸入數量即時處理
+    function handleQtyInput(el) {
+      const val = parseInt(el.value, 10);
+      if (!isNaN(val) && val >= 1) {
+        currentQty = val;
+      }
+    }
+
+    // 當輸入框失去焦點時，若為空或小於 1 則自動校正為 1
+    function handleQtyBlur(el) {
+      if (!el.value || parseInt(el.value, 10) < 1) {
+        el.value = 1;
+        currentQty = 1;
+      }
+    }
+
+    // 加入購物車
     function addToCart() {
       const existing = cart.find(i => i.id === selectedProduct.id);
       if (existing) {
@@ -332,6 +359,7 @@
       alert(`已將「【${selectedProduct.tag}】${selectedProduct.title}」共 ${currentQty} 件加入購物車！`);
     }
 
+    // 立即結帳
     function buyNow() {
       addToCart();
       openCartModal();
@@ -383,7 +411,7 @@
 
       if (cart.length === 0) {
         container.innerHTML = `
-          <div class="py-12 text-center text-gray-400 text-xs">
+      <div class="py-12 text-center text-gray-400 text-xs">
             <i data-lucide="shopping-bag" class="w-10 h-10 mx-auto mb-2 text-gray-300"></i>
             購物車空空如也，快去挑選喜愛的商品吧！
           </div>
@@ -455,7 +483,7 @@
         name: document.getElementById('cust-name').value.trim(),
         phone: document.getElementById('cust-phone').value.trim(),
         email: currentUser ? currentUser.email : "訪客",
-        storeType: document.querySelector('input[name="storeType"]:checked').value, // 送出 7-ELEVEN 或 全家
+        storeType: document.querySelector('input[name="storeType"]:checked').value,
         storeName: document.getElementById('cust-store').value.trim(),
         productTitle: combinedTitle,
         quantity: totalQty,
@@ -522,7 +550,7 @@
       }
     }
 
-    // 歷史訂單查詢（精準對應 7-11 與 全家 貨態連結）
+    // 歷史訂單查詢
     async function fetchUserOrders() {
       if (!currentUser) return;
       const container = document.getElementById('orders-container');
@@ -537,17 +565,14 @@
           result.orders.forEach(o => {
             let displayStore = o.store || "";
 
-            // 智能防呆：如果試算表把 7-11 誤存成英文日期，自動還原為「7-ELEVEN」
             const is711 = displayStore.includes('7-11') ||
                           displayStore.includes('7-ELEVEN') ||
                           displayStore.includes('Jul 11');
 
             if (is711) {
-              // 把長串英文日期清理掉，只保留門市號碼或名稱
               displayStore = "7-ELEVEN " + displayStore.replace(/Sat Jul 11[^\d]*/i, '').replace(/7-11/g, '').replace(/7-ELEVEN/g, '').trim();
             }
 
-            // 嚴格對應超商網址
             const trackingUrl = is711
               ? 'https://eservice.7-11.com.tw/e-tracking/search.aspx'
               : 'https://fmec.famiport.com.tw/FP_Entrance/QueryBox';
