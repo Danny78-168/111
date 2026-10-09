@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>呼拉圈</title>
+  <title>呼拉圈賣場</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide 圖標庫 -->
@@ -16,7 +16,7 @@
   <!-- 頂部品牌 Header -->
   <header class="bg-white sticky top-0 z-20 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
     <div class="max-w-md mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-black tracking-widest text-slate-800">STORE</h1>
+      <h1 class="text-xl font-black tracking-tight text-slate-800">呼拉圈賣場</h1>
       <!-- 右上角會員頭像縮圖（登入後自動顯示） -->
       <div id="nav-user-avatar" onclick="openMemberModal()" class="cursor-pointer hidden">
         <img id="nav-avatar-img" class="w-8 h-8 rounded-full border border-orange-200 object-cover" alt="用戶頭像">
@@ -31,7 +31,7 @@
     </div>
   </main>
 
-  <!-- 右下角 LINE 諮詢客服查訂單按鈕 (B 樣式：圓形按鈕 + 左側常駐發光小氣泡) -->
+  <!-- 右下角 LINE 諮詢客服查訂單按鈕 (B 樣式：圓形按鈕 + 左側常駐呼吸燈氣泡) -->
   <a href="https://lin.ee/yMW5WDF" target="_blank" rel="noopener noreferrer"
      class="fixed bottom-20 right-3 z-40 flex items-center gap-2 active:scale-95 transition-transform duration-150">
     <!-- 常駐文字對話氣泡 -->
@@ -70,188 +70,4 @@
     </div>
   </nav>
 
-  <!-- 會員中心 / Google 登入彈窗 (Modal) -->
-  <div id="member-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl relative">
-      <!-- 關閉按鈕 -->
-      <button onclick="closeMemberModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <!-- 未登入畫面 -->
-      <div id="login-view" class="flex flex-col items-center text-center">
-        <div class="w-16 h-16 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mb-3">
-          <i data-lucide="user" class="w-8 h-8"></i>
-        </div>
-        <h3 class="text-lg font-bold text-gray-900 mb-1">會員登入 / 註冊</h3>
-        <p class="text-xs text-gray-500 mb-6">使用 Google 帳號一鍵登入，即時查看個人權益</p>
-
-        <!-- Google 官方按鈕容器 -->
-        <div id="g_id_onload"
-             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-             data-callback="handleGoogleLogin"
-             data-auto_prompt="false">
-        </div>
-        <div class="g_id_signin" 
-             data-type="standard" 
-             data-size="large" 
-             data-theme="outline" 
-             data-text="sign_in_with" 
-             data-shape="pill" 
-             data-logo_alignment="left">
-        </div>
-        <p class="text-[10px] text-gray-400 mt-4">安全防護由 Google Identity 驅動</p>
-      </div>
-
-      <!-- 已登入畫面 -->
-      <div id="profile-view" class="flex flex-col items-center text-center hidden">
-        <img id="user-picture" class="w-20 h-20 rounded-full border-2 border-orange-500 mb-3 shadow object-cover" src="" alt="用戶頭像">
-        <h3 id="user-name" class="text-lg font-bold text-gray-900">用戶名稱</h3>
-        <p id="user-email" class="text-xs text-gray-500 mb-6">user@example.com</p>
-
-        <div class="w-full bg-gray-50 rounded-xl p-3 mb-5 text-left text-xs space-y-1.5 border border-gray-100">
-          <div class="text-gray-600">會員狀態：<span class="text-emerald-600 font-semibold">驗證成功 (Google)</span></div>
-          <div class="text-gray-600">專屬服務：<a href="https://lin.ee/yMW5WDF" target="_blank" class="text-emerald-600 font-semibold underline">LINE 專屬一對一客服</a></div>
-        </div>
-
-        <button onclick="handleLogout()" class="w-full py-2.5 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl text-sm transition">
-          登出帳號
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // 1. 讀取商品列表與渲染
-    async function loadProducts() {
-      try {
-        const response = await fetch('./products.json');
-        const products = await response.json();
-        const grid = document.getElementById('product-grid');
-        grid.innerHTML = '';
-
-        products.forEach(item => {
-          const isOutOfStock = item.stock <= 0;
-          const tagColorClass = item.tagColor === 'red' ? 'text-red-600 font-bold' : 'text-gray-900 font-bold';
-
-          // 建立卡片外層 (售完不可點擊，未售完點擊前往賣貨便)
-          const card = document.createElement(isOutOfStock ? 'div' : 'a');
-          if (!isOutOfStock) {
-            card.href = item.myshipUrl;
-            card.target = "_blank";
-            card.rel = "noopener noreferrer";
-          }
-          card.className = `bg-white rounded-2xl p-2.5 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-50 transition active:scale-[0.98] ${
-            isOutOfStock ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
-          }`;
-
-          card.innerHTML = `
-            <!-- 商品主圖 -->
-            <div class="relative w-full aspect-square rounded-xl flex items-center justify-center p-3 mb-2 bg-[#fcfcfd] overflow-hidden">
-              <img src="${item.imageUrl}" 
-                   alt="${item.title}" 
-                   loading="lazy"
-                   class="w-full h-full object-contain filter drop-shadow-[0_8px_10px_rgba(0,0,0,0.12)]">
-              ${isOutOfStock ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-xs font-bold rounded-xl tracking-wider">已售完</div>' : ''}
-            </div>
-
-            <!-- 標題區域 -->
-            <div class="mb-2">
-              <h3 class="text-[13px] leading-tight text-gray-800 line-clamp-1">
-                <span class="${tagColorClass}">【${item.tag}】</span>${item.title}
-              </h3>
-            </div>
-
-            <!-- 價格與已售數量 -->
-            <div class="flex items-baseline justify-between mt-auto pt-1">
-              <div class="text-[#ff5500] font-extrabold text-[15px] tracking-tight flex items-baseline gap-0.5">
-                <span>NT$${item.price}</span>
-                <span class="text-[10px] font-normal text-gray-400">/單入</span>
-              </div>
-              <div class="text-gray-400 text-[11px]">
-                ${isOutOfStock ? '補貨中' : `已售 ${item.soldCount}件`}
-              </div>
-            </div>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (err) {
-        console.error('載入商品資料失敗:', err);
-      }
-    }
-
-    // 2. Google 登入處理
-    function decodeJwtResponse(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    }
-
-    function handleGoogleLogin(response) {
-      const user = decodeJwtResponse(response.credential);
-      localStorage.setItem('user_profile', JSON.stringify({
-        name: user.name,
-        email: user.email,
-        picture: user.picture
-      }));
-      updateUserUI();
-    }
-
-    function handleLogout() {
-      localStorage.removeItem('user_profile');
-      updateUserUI();
-    }
-
-    function updateUserUI() {
-      const savedUser = localStorage.getItem('user_profile');
-      const loginView = document.getElementById('login-view');
-      const profileView = document.getElementById('profile-view');
-      const navAvatar = document.getElementById('nav-user-avatar');
-      const navAvatarImg = document.getElementById('nav-avatar-img');
-      const navText = document.getElementById('nav-user-text');
-
-      if (savedUser) {
-        const user = JSON.parse(savedUser);
-        document.getElementById('user-name').innerText = user.name;
-        document.getElementById('user-email').innerText = user.email;
-        document.getElementById('user-picture').src = user.picture;
-
-        loginView.classList.add('hidden');
-        profileView.classList.remove('hidden');
-
-        navAvatarImg.src = user.picture;
-        navAvatar.classList.remove('hidden');
-        navText.innerText = user.name.slice(0, 4);
-      } else {
-        loginView.classList.remove('hidden');
-        profileView.classList.add('hidden');
-        navAvatar.classList.add('hidden');
-        navText.innerText = '我的';
-      }
-    }
-
-    // 3. 彈窗開關控制
-    function openMemberModal() {
-      const modal = document.getElementById('member-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeMemberModal() {
-      const modal = document.getElementById('member-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    // 初始化載入
-    window.addEventListener('DOMContentLoaded', () => {
-      loadProducts();
-      updateUserUI();
-      lucide.createIcons();
-    });
-  </script>
-</body>
-</html>
+  <!-- 會員中心 / Google 登入
